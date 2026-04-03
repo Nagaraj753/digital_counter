@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Digital Click Counter</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="app-container">
+    <header class="app-header">
+      <h1 class="main-title">TRACKER</h1>
+      <p class="subtitle">Digital Click Counter</p>
+    </header>
+
+    <div class="settings-panel">
+      <div class="setting-group">
+        <label for="category-type">Category</label>
+        <select id="category-type">
+          <option value="Workout Reps">Workout Reps</option>
+          <option value="Steps Count">Steps Count</option>
+          <option value="Habit Tracker">Habit Tracker</option>
+          <option value="Custom">Custom...</option>
+        </select>
+        <input type="text" id="custom-category" placeholder="Label name" style="display: none;">
+      </div>
+      
+      <div class="setting-group">
+        <label for="target-type">Target</label>
+        <select id="target-type">
+          <option value="10">10</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+          <option value="Infinity">None</option>
+          <option value="Custom">Custom...</option>
+        </select>
+        <input type="number" id="custom-target" placeholder="Target" style="display: none;" min="1">
+      </div>
+      
+      <div class="toggles">
+        <button id="theme-btn" class="icon-toggle active" title="Customize Theme">🎨 Theme</button>
+        <button id="sound-modal-btn" class="icon-toggle active" title="Sound Settings">🎵 Sound</button>
+      </div>
+    </div>
+
+    <main class="main-counter">
+      <div class="progress-ring-container" id="tap-zone">
+        <svg class="progress-ring" width="280" height="280">
+          <defs>
+            <linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color: var(--accent-primary);" />
+              <stop offset="100%" style="stop-color: var(--accent-secondary);" />
+            </linearGradient>
+            <linearGradient id="ringGradientRainbow" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ff0000" />
+              <stop offset="20%" stop-color="#ff8c00" />
+              <stop offset="40%" stop-color="#ffff00" />
+              <stop offset="60%" stop-color="#008000" />
+              <stop offset="80%" stop-color="#0000ff" />
+              <stop offset="100%" stop-color="#4b0082" />
+            </linearGradient>
+          </defs>
+          <circle class="progress-ring__background" stroke-width="12" fill="transparent" r="125" cx="140" cy="140"/>
+          <circle class="progress-ring__circle" stroke-width="12" fill="transparent" r="125" cx="140" cy="140"/>
+        </svg>
+        <div class="counter-content">
+          <div id="current-category-display">Workout Reps</div>
+          <div id="count-display">0</div>
+          <div id="target-display">/ 10</div>
+        </div>
+      </div>
+    </main>
+
+    <div style="text-align: center; margin-top: 1rem; margin-bottom: 1rem;">
+      <a href="https://www.linkedin.com/in/nagaraj-haldoddy-6b27b1364" target="_blank" style="color: var(--text-dim); font-size: 0.8rem; letter-spacing: 1.5px; text-transform: uppercase; text-decoration: none; transition: color 0.2s;">
+        Developed by Nagaraj
+      </a>
+    </div>
+
+    <footer class="app-footer">
+      <button id="decrement-btn" class="footer-btn action-btn">- 1 Reduce</button>
+      <button id="reset-btn" class="footer-btn reset-btn">Reset</button>
+    </footer>
+  </div>
+
+  <!-- Theme Modal Extension -->
+  <div id="theme-modal" class="modal-overlay hidden">
+    <div class="modal-content glassmorphism">
+      <div class="modal-header">
+        <h2>Theme Customization</h2>
+        <button id="close-theme-btn" class="close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h3>Solid Colors</h3>
+        <div class="theme-grid" id="solid-themes-grid"></div>
+        
+        <h3 style="margin-top: 1.5rem;">Gradient Themes</h3>
+        <div class="theme-grid" id="gradient-themes-grid"></div>
+        
+        <button id="default-theme-btn" class="footer-btn" style="margin-top: 2rem; width: 100%;">Reset to Default Mode</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sound Customization Modal -->
+  <div id="sound-modal" class="modal-overlay hidden">
+    <div class="modal-content glassmorphism">
+      <div class="modal-header">
+        <h2>Sound Feedback System</h2>
+        <button id="close-sound-btn" class="close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        
+        <div style="margin-bottom: 2rem; text-align: center;">
+             <button id="toggle-sound" class="footer-btn" style="width: 100%;">🔊 Sound Active</button>
+        </div>
+
+        <div style="margin-bottom: 2rem;">
+          <label for="volume-slider" style="color: var(--text-dim); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 15px;">Master Volume</label>
+          <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="1" style="width: 100%;">
+        </div>
+
+        <div>
+           <label for="sound-select" style="color: var(--text-dim); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 10px;">Select Tone (25 Available)</label>
+           <select id="sound-select" style="width: 100%; border-radius: 12px; padding: 12px; font-weight: bold; background: rgba(0,0,0,0.8); cursor: pointer;"></select>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
